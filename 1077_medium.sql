@@ -1,29 +1,36 @@
-# 1077. Project Employees III
+-- 1077. Project Employees III
 
-# Table: Project
-# +-------------+---------+
-# | Column Name | Type    |
-# +-------------+---------+
-# | project_id  | int     |
-# | employee_id | int     |
-# +-------------+---------+
-# (project_id, employee_id) is the primary key of this table.
-# employee_id is a foreign key to Employee table.
+/*
+Table: Project
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| project_id  | int     |
+| employee_id | int     |
++-------------+---------+
+(project_id, employee_id) is the primary key of this table.
+employee_id is a foreign key to Employee table.
 
-# Table: Employee
-# +------------------+---------+
-# | Column Name      | Type    |
-# +------------------+---------+
-# | employee_id      | int     |
-# | name             | varchar |
-# | experience_years | int     |
-# +------------------+---------+
-# employee_id is the primary key of this table.
+Table: Employee
++------------------+---------+
+| Column Name      | Type    |
++------------------+---------+
+| employee_id      | int     |
+| name             | varchar |
+| experience_years | int     |
++------------------+---------+
+employee_id is the primary key of this table.
  
-# Write an SQL query that reports the most experienced employees in each project. 
-# In case of a tie, report all employees with the maximum number of experience years.
+Write an SQL query that reports the most experienced employees in each project. 
+In case of a tie, report all employees with the maximum number of experience years.
 
-# MS SQL
+Result table:
++-------------+---------------+
+| project_id  | employee_id   |
++-------------+---------------+
+*/
+
+-- MS SQL
 SELECT project_id, employee_id
 FROM
     (SELECT 
