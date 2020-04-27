@@ -1,36 +1,45 @@
-# 1097. Game Play Analysis V
+-- 1097. Game Play Analysis V
 
-# Table: Activity
-
-# +--------------+---------+
-# | Column Name  | Type    |
-# +--------------+---------+
-# | player_id    | int     |
-# | device_id    | int     |
-# | event_date   | date    |
-# | games_played | int     |
-# +--------------+---------+
-# (player_id, event_date) is the primary key of this table.
-# This table shows the activity of players of some game.
-# Each row is a record of a player who logged in and played a number of games (possibly 0) 
-# before logging out on some day using some device.
+/*
+Table: Activity
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| player_id    | int     |
+| device_id    | int     |
+| event_date   | date    |
+| games_played | int     |
++--------------+---------+
+(player_id, event_date) is the primary key of this table.
+This table shows the activity of players of some game.
+Each row is a record of a player who logged in and played a number of games (possibly 0) 
+before logging out on some day using some device.
  
+We define the install date of a player to be the first login day of that player.
 
-# We define the install date of a player to be the first login day of that player.
+We also define day 1 retention of some date X to be the number of players whose 
+install date is X and they logged back in on the day right after X, divided by 
+the number of players whose install date is X, rounded to 2 decimal places.
 
-# We also define day 1 retention of some date X to be the number of players whose 
-# install date is X and they logged back in on the day right after X, divided by 
-# the number of players whose install date is X, rounded to 2 decimal places.
+Write an SQL query that reports for each install date, the number of players that 
+installed the game on that day and the day 1 retention.
 
-# Write an SQL query that reports for each install date, the number of players that 
-# installed the game on that day and the day 1 retention.
+Result table:
++------------+----------+----------------+
+| install_dt | installs | Day1_retention |
++------------+----------+----------------+
+*/
 
+-- MS SQL with CTE
+
+-- Create a table to find install_date for each player
 WITH Install AS (
     SELECT player_id, MIN(event_date) AS install_date
     FROM Activity
     GROUP BY player_id
 )
 
+-- Join the Install table and Activity table on player_id and next day activity
 SELECT 
     I.install_date AS install_dt,
     COUNT(I.player_id) AS installs,
