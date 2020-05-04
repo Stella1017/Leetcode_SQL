@@ -69,12 +69,15 @@ FULL OUTER JOIN
         AND m.spend_date = d.spend_date
 ),
 
+plt(platform) AS (
+    SELECT 'mobile' UNION SELECT 'desktop' UNION SELECT 'both'
+),
+
 date_plat AS (
     SELECT *
     FROM 
         (SELECT DISTINCT spend_date FROM purchase) d
-    CROSS JOIN
-        (SELECT DISTINCT platform FROM purchase) p
+    CROSS JOIN plt
 )
 
 
@@ -86,14 +89,11 @@ FROM date_plat dp
 LEFT JOIN 
     (SELECT spend_date,
         platform,
-        total_amount,
+        SUM(total_amount) AS total_amount,
         COUNT(user_id) AS total_users
      FROM purchase
      GROUP BY spend_date,
-        platform,
-        total_amount
+        platform
     ) p
     ON dp.spend_date = p.spend_date
         AND dp.platform = p.platform
-        
-        
